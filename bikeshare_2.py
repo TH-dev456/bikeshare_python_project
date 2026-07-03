@@ -99,6 +99,14 @@ def load_data(city, month, day):
 
 # This function will evaluate user input for questions that require yes/no answers.
 def user_input(question):
+    """
+    Prompts the user on whether they want to view output produced by function.
+    
+    Args:
+        (str) question - the question used in `input()`
+    Returns:
+        (str) ans - The user's input; can be yes/y or no/n.
+    """
 
     yes = {"yes", "y"}
     no = {"no", "n"}
