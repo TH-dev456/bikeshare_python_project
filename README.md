@@ -22,7 +22,7 @@ The script follows a prompt-based experience...
 	- `Gender`
 	- `Birth Year`
 
-The last two are available for Chicago and New York City.
+	The last two are available for Chicago and New York City.
 
 3. You will be prompted to answer yes/no questions to view statistics for popular travel times, popular stations, average and total trip durations, and user stats.
 
@@ -37,5 +37,11 @@ The project uses the following `.csv` files, provided by Udacity:
 - new_york_city.csv
 
 ## Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
+
+1. `chunker()` was taken from the course.
+
+2. I used Microsoft co-pilot free desktop version to refine the for loop in `raw_data()` and the while loop in `user_input()`.
+
+3. The for loop in user_stats():
+https://stackoverflow.com/questions/36973387/accessing-first-column-of-pandas-value-counts
 
