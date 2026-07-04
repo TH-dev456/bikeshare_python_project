@@ -37,40 +37,18 @@ def get_filters():
 
     # Getting the city from the user
 
-    city = ''
-
-    while city not in CITY_DATA:
-        city = input("Enter city name (options: chicago, new york city, washington): ").strip().lower()
-        if city in CITY_DATA:
-            break
-        else:
-            print("Please enter a valid input")
+    city_q = "Enter city name (options: chicago, new york city, washington): "
+    city = ask_choice(city_q, CITY_DATA)
 
     # Getting the month from the user
 
-    
-
-    month = ''
-
-    while month not in MONTHS:
-        month = input("Enter the month you would like to profile (all, january, february, ... , june): ").strip().lower()
-        if month in MONTHS:
-            break
-        else:
-            print("Please enter a valid input")
+    month_q = "Enter the month you would like to profile (all, january, february, ... , june): "
+    month = ask_choice(month_q, MONTHS)
 
     # Getting the day from the user
 
-    
-    
-    day = ''
-
-    while day not in DAYS:
-        day = input("Enter the day you would like to view (all, monday, tuesday, ... sunday): ").strip().lower()
-        if day in DAYS:
-            break
-        else:
-            print("Please enter a valid input")
+    day_q = "Enter the day you would like to view (all, monday, tuesday, ... sunday): "
+    day = ask_choice(day_q, DAYS)
 
     print(f"\nYou've chosen to view data for {city}, month: {month}, day: {day}\n")
     print('-'*40)
