@@ -7,6 +7,14 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+yes = {"yes", "y"}
+no = {"no", "n"}
+
+months = {'all', 'january', 'february', 'march', 'april', 'may', 'june'}
+days = {'all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'}
+
+
+
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -31,7 +39,7 @@ def get_filters():
 
     # Getting the month from the user
 
-    months = ['all', 'january', 'february', 'march', 'april', 'may', 'june']
+    
 
     month = ''
 
@@ -44,7 +52,7 @@ def get_filters():
 
     # Getting the day from the user
 
-    days = ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    
     
     day = ''
 
@@ -100,8 +108,7 @@ def load_data(city, month, day):
 # This function will evaluate user input for questions that require yes/no answers.
 def user_input(question):
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
+    
 
     while True:
         ans = input(question).strip().lower()
@@ -126,8 +133,7 @@ def raw_data(df):
         for i in range(0, len(df), size):
             yield df[i:i + size]
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
+    
 
     counter = 1
 
@@ -162,8 +168,7 @@ def time_stats(df):
 
     # Printing time stats
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
+    
 
     ans = user_input("Would you like to see the most frequent times of travel?")
     if ans in yes:
@@ -198,8 +203,7 @@ def station_stats(df):
 
     # Printing time stats
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
+    
 
     ans = user_input("Would you like to see the most the most popular stations and end-to-end trip points?")
     if ans in yes:
@@ -233,8 +237,7 @@ def trip_duration_stats(df):
     
     # Printing Trip Duration stats
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
+    
 
     ans = user_input("Would you like to see statistics on trip duration?")
     if ans in yes:
@@ -258,8 +261,6 @@ def user_stats(df, city):
 
     start_time = time.time()
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
     
     if city == 'washington':
         print("No gender and age statistics for Washington. \n")
