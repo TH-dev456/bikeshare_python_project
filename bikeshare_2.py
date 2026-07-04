@@ -14,6 +14,15 @@ MONTHS = {'all', 'january', 'february', 'march', 'april', 'may', 'june'}
 DAYS = {'all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'}
 
 
+def ask_choice(question, valid_options):
+    while True:
+        ans = input(question).strip().lower()
+        if ans in valid_options:
+            return ans
+        else:
+            print(f'Invalid input. Choose from: {", ".join(valid_options)}')
+
+
 
 def get_filters():
     """
