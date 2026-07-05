@@ -1,7 +1,5 @@
 import time
 import pandas as pd
-import numpy as np
-import statistics
 
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
@@ -188,8 +186,6 @@ def station_stats(df):
 
     # Printing time stats
 
-    
-
     ans = user_input("Would you like to see the most the most popular stations and end-to-end trip points?")
     if ans in YES_OPTIONS:
         print('\nCalculating The Most Popular Stations and Trip...\n')
@@ -201,11 +197,9 @@ def station_stats(df):
         print(f"The most commonly used end station is {df['End Station'].mode()[0]}.")
 
         ## Display most frequent combination of start station and end station trip
-        combination = list(zip(df['Start Station'], df['End Station']))
+        top_combo = df[['Start Station', 'End Station']].value_counts().idxmax()
 
-        freq_comb = statistics.mode(combination)
-
-        print(f"The most frequent combination of start station and end station is {freq_comb[0]} to {freq_comb[1]}.")
+        print(f"The most frequent combination of start station and end station is {top_combo[0]} to {top_combo[1]}.")
         
     elif ans in NO_OPTIONS:
         print("You've chosen not to display the most popular stations and trip.")
