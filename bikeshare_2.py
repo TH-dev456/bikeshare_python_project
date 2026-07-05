@@ -21,19 +21,6 @@ def ask_choice(question, valid_options):
             print(f'Invalid input. Choose from: {", ".join(valid_options)}')
 
 
-# This function will evaluate user input for questions that require yes/no answers.
-def user_input(question):
-
-    while True:
-        ans = input(question).strip().lower()
-        if ans in YES_OPTIONS:
-            return ans
-        elif ans in NO_OPTIONS:
-            return ans
-        else:
-            print("Invalid input; please enter yes/y or no/n")
-
-
 
 def get_filters():
     """
@@ -103,7 +90,19 @@ def load_data(city, month, day):
     return df
 
 
+# This function will evaluate user input for questions that require yes/no answers.
+def user_input(question):
 
+    
+
+    while True:
+        ans = input(question).strip().lower()
+        if ans in YES_OPTIONS:
+            return ans
+        elif ans in NO_OPTIONS:
+            return ans
+        else:
+            print("Invalid input; please enter yes/y or no/n")
 
 
 # Printing raw data 5 rows at a time.
@@ -294,8 +293,8 @@ def main():
 
         print("\nYou have reached the end of the program.\n")
         
-        restart = user_input('\nWould you like to restart? Enter yes or no.\n')
-        if restart in NO_OPTIONS:
+        restart = input('\nWould you like to restart? Enter yes or no.\n')
+        if restart.lower() != 'yes':
             break
 
 if __name__ == "__main__":
