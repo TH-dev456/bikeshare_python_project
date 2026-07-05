@@ -217,17 +217,30 @@ def trip_duration_stats(df):
     
     # Printing Trip Duration stats
 
-    
-
     ans = user_input("Would you like to see statistics on trip duration?")
     if ans in YES_OPTIONS:
         print('\nCalculating Trip Duration...\n')
 
-        ## The total time was in seconds so I divided by 3600 and rounded the number.
-        print("The total travel time is {} hours.".format((df['Trip Duration'].sum()/3600).__round__()))
+        ## Total travel time
+
+        total_time = int(df['Trip Duration'].sum().round(0))
+
+        minutes, seconds = divmod(total_time, 60)
+        hours, minutes = divmod(minutes, 60)
+        days, hours = divmod(hours, 24)
+        months, days = divmod(days, 30)
+        years, months = divmod(months, 12)
+
+        print(f"Total travel time:\n{years}Y {months}M {days}D {hours}h {minutes}m {seconds}s\n")
 
         ## Travel time is in seconds so I divided by 60 to convert it to minutes
-        print("The average time per trip is {} minutes.".format(((df['Trip Duration'].mean())/60).__round__()))
+
+        avg_time = int(df['Trip Duration'].mean().round(0))
+
+        minutes, seconds = divmod(avg_time, 60)
+        hours, minutes = divmod(minutes, 60)
+        
+        print(f"Average travel time:\n{hours}h {minutes}m {seconds}s")
         
     elif ans in NO_OPTIONS:
         print("You've chosen not to display the total and average trip duration.")
