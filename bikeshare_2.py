@@ -293,8 +293,8 @@ def main():
 
         print("\nYou have reached the end of the program.\n")
         
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
-        if restart.lower() != 'yes':
+        restart = user_input('\nWould you like to restart? Enter yes or no.\n')
+        if restart in NO_OPTIONS:
             break
 
 if __name__ == "__main__":
