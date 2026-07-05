@@ -138,7 +138,7 @@ def raw_data(df):
                 else:
                     print("End of data.")
                     break
-            if ans in NO_OPTIONS:
+            elif ans in NO_OPTIONS:
                 print("Stopped by user.")
                 break
     elif ans in NO_OPTIONS:
@@ -175,7 +175,7 @@ def time_stats(df):
         else:
             print(f"The most common start hour is {start_hour} AM.")
             
-    if ans in NO_OPTIONS:
+    elif ans in NO_OPTIONS:
         print("You've chosen not to display the most frequent times of travel.")
 
     
@@ -209,7 +209,7 @@ def station_stats(df):
 
         print(f"The most frequent combination of start station and end station is {freq_comb[0]} to {freq_comb[1]}.")
         
-    if ans in NO_OPTIONS:
+    elif ans in NO_OPTIONS:
         print("You've chosen not to display the most popular stations and trip.")
         
 
@@ -236,7 +236,7 @@ def trip_duration_stats(df):
         ## Travel time is in seconds so I divided by 60 to convert it to minutes
         print("The average time per trip is {} minutes.".format(((df['Trip Duration'].mean())/60).__round__()))
         
-    if ans in NO_OPTIONS:
+    elif ans in NO_OPTIONS:
         print("You've chosen not to display the total and average trip duration.")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
@@ -252,7 +252,7 @@ def user_stats(df, city):
     if city == 'washington':
         print("No gender and age statistics for Washington. \n")
 
-    if city != 'washington':
+    elif city != 'washington':
         ans = user_input("Would you like to see statistics on Bikeshare users?")
         if ans in YES_OPTIONS:
             print("\nCalculating age and gender statitics ...\n")
@@ -267,7 +267,7 @@ def user_stats(df, city):
             
             print(f"The most common year of birth is {int(df['Birth Year'].mode()[0])}.")
             
-        if ans in NO_OPTIONS:
+        elif ans in NO_OPTIONS:
             print("You've chosen not to display statistics on bikeshare users.")
 
 
