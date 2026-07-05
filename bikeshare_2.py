@@ -169,11 +169,9 @@ def time_stats(df):
 
         ## Display the most common start hour
         start_hour = df['Start Time'].dt.hour.mode()[0]
-
-        if start_hour >= 12:
-            print(f"The most common start hour is {start_hour} PM.")
-        else:
-            print(f"The most common start hour is {start_hour} AM.")
+        display_hour = 12 if start_hour % 12 == 0 else start_hour % 12
+        suffix = 'AM' if start_hour < 12 else 'PM'
+        print(f'The most common start hour is {display_hour} {suffix}.')
             
     elif ans in NO_OPTIONS:
         print("You've chosen not to display the most frequent times of travel.")
