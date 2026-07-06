@@ -1,11 +1,26 @@
 import time
 import pandas as pd
-import numpy as np
-import statistics
 
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
+
+YES_OPTIONS = {"yes", "y"}
+NO_OPTIONS = {"no", "n"}
+
+MONTHS = {'all', 'january', 'february', 'march', 'april', 'may', 'june'}
+DAYS = {'all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'}
+
+
+def ask_choice(question, valid_options):
+    while True:
+        ans = input(question).strip().lower()
+        if ans in valid_options:
+            return ans
+        else:
+            print(f'Invalid input. Choose from: {", ".join(valid_options)}')
+
+
 
 def get_filters():
     """
@@ -20,40 +35,18 @@ def get_filters():
 
     # Getting the city from the user
 
-    city = ''
-
-    while city not in CITY_DATA:
-        city = input("Enter city name (options: chicago, new york city, washington): ").strip().lower()
-        if city in CITY_DATA:
-            break
-        else:
-            print("Please enter a valid input")
+    city_q = "Enter city name (options: chicago, new york city, washington): "
+    city = ask_choice(city_q, CITY_DATA)
 
     # Getting the month from the user
 
-    months = ['all', 'january', 'february', 'march', 'april', 'may', 'june']
-
-    month = ''
-
-    while month not in months:
-        month = input("Enter the month you would like to profile (all, january, february, ... , june): ").strip().lower()
-        if month in months:
-            break
-        else:
-            print("Please enter a valid input")
+    month_q = "Enter the month you would like to profile (all, january, february, ... , june): "
+    month = ask_choice(month_q, MONTHS)
 
     # Getting the day from the user
 
-    days = ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-    
-    day = ''
-
-    while day not in days:
-        day = input("Enter the day you would like to view (all, monday, tuesday, ... sunday): ").strip().lower()
-        if day in days:
-            break
-        else:
-            print("Please enter a valid input")
+    day_q = "Enter the day you would like to view (all, monday, tuesday, ... sunday): "
+    day = ask_choice(day_q, DAYS)
 
     print(f"\nYou've chosen to view data for {city}, month: {month}, day: {day}\n")
     print('-'*40)
@@ -108,14 +101,13 @@ def user_input(question):
         (str) ans - The user's input; can be yes/y or no/n.
     """
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
+    
 
     while True:
         ans = input(question).strip().lower()
-        if ans in yes:
+        if ans in YES_OPTIONS:
             return ans
-        elif ans in no:
+        elif ans in NO_OPTIONS:
             return ans
         else:
             print("Invalid input; please enter yes/y or no/n")
@@ -134,15 +126,14 @@ def raw_data(df):
         for i in range(0, len(df), size):
             yield df[i:i + size]
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
+    
 
     counter = 1
 
     ans = user_input("Would you like to see the raw data?")
-    if ans in yes:
+    if ans in YES_OPTIONS:
         for chunk in chunker(df, 5):
-            if ans in yes:
+            if ans in YES_OPTIONS:
                 try:
                     display(chunk)
                 except Exception:
@@ -153,10 +144,10 @@ def raw_data(df):
                 else:
                     print("End of data.")
                     break
-            if ans in no:
+            elif ans in NO_OPTIONS:
                 print("Stopped by user.")
                 break
-    elif ans in no:
+    elif ans in NO_OPTIONS:
         print("You've chosen not to display the raw data.")
     
     print("\nThis took %s seconds." % (time.time() - start_time))
@@ -170,11 +161,10 @@ def time_stats(df):
 
     # Printing time stats
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
+    
 
     ans = user_input("Would you like to see the most frequent times of travel?")
-    if ans in yes:
+    if ans in YES_OPTIONS:
         print('\nCalculating The Most Frequent Times of Travel...\n')
 
         ## Display the most common month
@@ -185,13 +175,11 @@ def time_stats(df):
 
         ## Display the most common start hour
         start_hour = df['Start Time'].dt.hour.mode()[0]
-
-        if start_hour >= 12:
-            print(f"The most common start hour is {start_hour} PM.")
-        else:
-            print(f"The most common start hour is {start_hour} AM.")
+        display_hour = 12 if start_hour % 12 == 0 else start_hour % 12
+        suffix = 'AM' if start_hour < 12 else 'PM'
+        print(f'The most common start hour is {display_hour} {suffix}.')
             
-    if ans in no:
+    elif ans in NO_OPTIONS:
         print("You've chosen not to display the most frequent times of travel.")
 
     
@@ -206,11 +194,8 @@ def station_stats(df):
 
     # Printing time stats
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
-
     ans = user_input("Would you like to see the most the most popular stations and end-to-end trip points?")
-    if ans in yes:
+    if ans in YES_OPTIONS:
         print('\nCalculating The Most Popular Stations and Trip...\n')
 
         ## TO DO: display most commonly used start station
@@ -220,13 +205,11 @@ def station_stats(df):
         print(f"The most commonly used end station is {df['End Station'].mode()[0]}.")
 
         ## Display most frequent combination of start station and end station trip
-        combination = list(zip(df['Start Station'], df['End Station']))
+        top_combo = df[['Start Station', 'End Station']].value_counts().idxmax()
 
-        freq_comb = statistics.mode(combination)
-
-        print(f"The most frequent combination of start station and end station is {freq_comb[0]} to {freq_comb[1]}.")
+        print(f"The most frequent combination of start station and end station is {top_combo[0]} to {top_combo[1]}.")
         
-    if ans in no:
+    elif ans in NO_OPTIONS:
         print("You've chosen not to display the most popular stations and trip.")
         
 
@@ -241,20 +224,32 @@ def trip_duration_stats(df):
     
     # Printing Trip Duration stats
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
-
     ans = user_input("Would you like to see statistics on trip duration?")
-    if ans in yes:
+    if ans in YES_OPTIONS:
         print('\nCalculating Trip Duration...\n')
 
-        ## The total time was in seconds so I divided by 3600 and rounded the number.
-        print("The total travel time is {} hours.".format((df['Trip Duration'].sum()/3600).__round__()))
+        ## Total travel time
+
+        total_time = int(df['Trip Duration'].sum().round(0))
+
+        minutes, seconds = divmod(total_time, 60)
+        hours, minutes = divmod(minutes, 60)
+        days, hours = divmod(hours, 24)
+        months, days = divmod(days, 30)
+        years, months = divmod(months, 12)
+
+        print(f"Total travel time:\n{years}Y {months}M {days}D {hours}h {minutes}m {seconds}s\n")
 
         ## Travel time is in seconds so I divided by 60 to convert it to minutes
-        print("The average time per trip is {} minutes.".format(((df['Trip Duration'].mean())/60).__round__()))
+
+        avg_time = int(df['Trip Duration'].mean().round(0))
+
+        minutes, seconds = divmod(avg_time, 60)
+        hours, minutes = divmod(minutes, 60)
         
-    if ans in no:
+        print(f"Average travel time:\n{hours}h {minutes}m {seconds}s")
+        
+    elif ans in NO_OPTIONS:
         print("You've chosen not to display the total and average trip duration.")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
@@ -266,15 +261,13 @@ def user_stats(df, city):
 
     start_time = time.time()
 
-    yes = {"yes", "y"}
-    no = {"no", "n"}
     
     if city == 'washington':
         print("No gender and age statistics for Washington. \n")
 
-    if city != 'washington':
+    elif city != 'washington':
         ans = user_input("Would you like to see statistics on Bikeshare users?")
-        if ans in yes:
+        if ans in YES_OPTIONS:
             print("\nCalculating age and gender statitics ...\n")
             print("Gender: ")
             
@@ -287,7 +280,7 @@ def user_stats(df, city):
             
             print(f"The most common year of birth is {int(df['Birth Year'].mode()[0])}.")
             
-        if ans in no:
+        elif ans in NO_OPTIONS:
             print("You've chosen not to display statistics on bikeshare users.")
 
 
@@ -308,8 +301,8 @@ def main():
 
         print("\nYou have reached the end of the program.\n")
         
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
-        if restart.lower() != 'yes':
+        restart = user_input('\nWould you like to restart? Enter yes or no.\n')
+        if restart in NO_OPTIONS:
             break
 
 if __name__ == "__main__":
